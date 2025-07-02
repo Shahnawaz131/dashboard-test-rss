@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useMemo } from "react"
 import { MobileMenu } from "./MobileMenu"
 import {
   FiChevronDown,
@@ -30,6 +30,14 @@ export const Header = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const dashboardRef = useRef(null)
   const profileRef = useRef(null)
+
+  // Format date as 'Today, Mon D'
+  const formattedDate = useMemo(() => {
+    const now = new Date();
+    const options = { month: 'short', day: 'numeric' };
+    const formatted = now.toLocaleDateString('en-US', options);
+    return `Today, ${formatted}`;
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -91,8 +99,9 @@ export const Header = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         </div>
 
         <div className="flex-1 max-w-md mx-8">
+          {/* Search Bar */}
           <div className="relative">
-            <div className="flex items-center bg-[#1A191E] border border-[#2A2930] rounded-full px-4 py-2.5 focus-within:border-[#3A3940] transition-colors duration-200">
+            <div className="flex items-center bg-[#1A191E] border border-[#2A2930] rounded-full px-2 py-2 focus-within:border-[#3A3940] transition-colors duration-200">
               <FiSearch className="text-gray-400 mr-3" size={18} />
               <input
                 type="text"
@@ -107,26 +116,31 @@ export const Header = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         </div>
 
         <div className="flex items-center gap-4">
+          {/* Notification Bell with New Count */}
           <div className="relative">
-            <button className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200">
+            <div className="flex items-center bg-[#1A191E] border border-[#2A2930] rounded-full px-4 py-2.5 transition-colors duration-200 cursor-pointer gap-2">
               <div className="relative">
-                <FiBell size={18} />
+                <FiBell size={18} className="text-gray-300" />
                 <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
               </div>
-              <span className="hidden lg:block text-sm">2 new</span>
-            </button>
+              <span className="hidden lg:block text-sm text-white font-medium">2 new</span>
+            </div>
           </div>
 
+          {/* Date Section with Navigation */}
           <div className="hidden lg:flex items-center gap-3 text-gray-300">
-            <button className="p-1 hover:text-white transition-colors duration-200">
-              <FiChevronLeft size={16} />
-            </button>
-            <span className="text-sm font-medium whitespace-nowrap">Today, Apr 8</span>
-            <button className="p-1 hover:text-white transition-colors duration-200">
-              <FiChevronRight size={16} />
-            </button>
+            <div className="flex items-center bg-[#1A191E] border border-[#2A2930] rounded-full px-2 py-2 gap-2">
+              <button className="p-1 hover:text-white transition-colors duration-200">
+                <FiChevronLeft size={16} />
+              </button>
+              <span className="text-sm font-medium whitespace-nowrap text-white">{formattedDate}</span>
+              <button className="p-1 hover:text-white transition-colors duration-200">
+                <FiChevronRight size={16} />
+              </button>
+            </div>
           </div>
 
+          {/* Profile Badge Dropdown */}
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -147,7 +161,7 @@ export const Header = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
             {isProfileOpen && (
               <div className="absolute top-full right-0 mt-2 w-56 bg-[#1A191E] border border-[#2A2930] rounded-xl shadow-xl z-50 py-2">
-                <div className="px-4 py-3 border-b border-[#2A2930]">
+                <div className="px-4 py-3 border-b border-neutral-800">
                   <div className="flex items-center gap-3">
                     <Image src="/person.jpg" alt="Profile" width={36} height={36} className="rounded-full" />
                     <div>

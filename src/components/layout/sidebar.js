@@ -124,10 +124,11 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
   return (
     <div
       ref={sidebarRef}
-      className="relative border-r border-[#16151A] min-h-screen h-full px-1 transition-all duration-300 ease-in-out"
+      className="relative border-r border-neutral-800 min-h-screen h-full px-1 transition-all duration-300 ease-in-out"
       style={{ width: `${currentWidth}px` }}
     >
       <div className="flex flex-col h-screen pb-10 pt-3">
+        {/* Logo and Collapse Button Section */}
         <div
           className="relative flex items-center justify-between ml-2.5 mb-10 cursor-pointer transition-all duration-300 ease-in-out"
           onMouseEnter={() => {
@@ -177,7 +178,7 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
                 e.stopPropagation()
                 toggleSidebar()
               }}
-              className="p-2 rounded-lg hover:bg-[#18181A] transition-all duration-200 ease-in-out text-[#565658] hover:text-white group"
+              className="p-2 rounded-lg hover:bg-[#18181A] transition-all duration-200 ease-in-out text-gray-400 hover:text-white group"
               title="Collapse sidebar"
             >
               <TbLayoutSidebarRightCollapse
@@ -189,6 +190,7 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
         </div>
 
         <div className="flex flex-col flex-1 justify-between h-full">
+          {/* Main Navigation Group */}
           <nav>
             <ul className="flex flex-col gap-1 px-2.5">
               {navigationGroups[0].map((navItem, navIdx) => {
@@ -211,14 +213,14 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
                         )}
                         <div
                           className={`my-1 rounded-lg ml-2 transition-colors duration-200 ${
-                            isActive ? "text-white" : "text-[#272629] group-hover:text-[#565658]"
+                            isActive ? "text-white" : "text-neutral-700 group-hover:text-gray-400"
                           }`}
                         >
                           {navItem.icon}
                         </div>
                         <span
                           className={`text-[16px] min-w-38 transition-all duration-300 ease-in-out whitespace-nowrap ${
-                            isActive ? "text-white" : "text-[#272629] group-hover:text-[#565658]"
+                            isActive ? "text-white" : "text-neutral-700 group-hover:text-gray-400"
                           }`}
                         >
                           {navItem.label}
@@ -228,8 +230,8 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
                       <div
                         className={`p-2.5 my-1 rounded-lg flex items-center justify-center transition-all duration-200 ease-in-out ${
                           isActive
-                            ? "bg-[#18181A] text-[#565658]"
-                            : "bg-transparent text-[#272629] hover:bg-[#18181A] hover:text-[#565658]"
+                            ? "bg-[#18181A] text-gray-400"
+                            : "bg-transparent text-neutral-700 hover:bg-[#18181A] hover:text-gray-400"
                         }`}
                       >
                         {navItem.icon}
@@ -242,6 +244,7 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
           </nav>
 
           <nav className="mt-8">
+            {/* Secondary Navigation Group */}
             <ul className="flex flex-col gap-1 px-2.5">
               {navigationGroups[1].map((navItem, navIdx) => {
                 const isActive = navItem.path === pathname
@@ -263,14 +266,14 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
                         )}
                         <div
                           className={`my-1 rounded-lg ml-2 transition-colors duration-200 ${
-                            isActive ? "text-white" : "text-[#272629] group-hover:text-[#565658]"
+                            isActive ? "text-white" : "text-neutral-700 group-hover:text-gray-400"
                           }`}
                         >
                           {navItem.icon}
                         </div>
                         <span
                           className={`text-[16px] min-w-38 transition-all duration-300 ease-in-out whitespace-nowrap ${
-                            isActive ? "text-white" : "text-[#272629] group-hover:text-[#565658]"
+                            isActive ? "text-white" : "text-neutral-700 group-hover:text-gray-400"
                           }`}
                         >
                           {navItem.label}
@@ -280,8 +283,8 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
                       <div
                         className={`p-2.5 my-1 rounded-lg flex items-center justify-center transition-all duration-200 ease-in-out ${
                           isActive
-                            ? "bg-[#18181A] text-[#565658]"
-                            : "bg-transparent text-[#272629] hover:bg-[#18181A] hover:text-[#565658]"
+                            ? "bg-[#18181A] text-gray-400"
+                            : "bg-transparent text-neutral-700 hover:bg-[#18181A] hover:text-gray-400"
                         }`}
                       >
                         {navItem.icon}
@@ -298,13 +301,17 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
       {screenWidth > 980 && (
         <div
           ref={resizeHandleRef}
-          className={`absolute top-0 right-0 w-1 h-full cursor-col-resize bg-transparent hover:bg-[#565658] transition-all duration-200 ease-in-out group ${
-            isResizing ? "bg-[#565658]" : ""
-          }`}
-          onMouseDown={startResizing}
         >
-          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-3 h-8 bg-[#565658] rounded-l-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out flex items-center justify-center">
-            <div className="w-0.5 h-4 bg-[#272629] rounded-full"></div>
+          {/* Sidebar Resize Handle */}
+          <div
+            className={`absolute top-0 right-0 w-1 h-full cursor-col-resize bg-transparent hover:bg-[#565658] transition-all duration-200 ease-in-out group ${
+              isResizing ? "bg-[#565658]" : ""
+            }`}
+            onMouseDown={startResizing}
+          >
+            <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-3 h-8 bg-[#565658] rounded-l-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out flex items-center justify-center">
+              <div className="w-0.5 h-4 bg-[#272629] rounded-full"></div>
+            </div>
           </div>
         </div>
       )}
