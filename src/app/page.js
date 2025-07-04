@@ -11,7 +11,9 @@ import {
   Printer,
   Smartphone,
   BarChart3,
+  PieChart,
 } from "lucide-react"
+import DashboardBrands from "@/components/DashboardBrands"
 
 export default function Home() {
   // Enhanced data for professional charts
@@ -32,24 +34,27 @@ export default function Home() {
     { name: "Emulator", count: 19, percentage: 6.5, color: "#4272EB", icon: <Smartphone className="w-3.5 h-3.5" /> },
   ]
 
-  // Data for horizontal progress bars (Balance style)
-  const templateBreakdown = [
-    { name: "Paper", symbol: "PPR", count: 156, percentage: 52.3, color: "#A2BEF7" },
-    { name: "Email", symbol: "EML", count: 89, percentage: 29.8, color: "#7298F1" },
-    { name: "A4", symbol: "A4", count: 34, percentage: 11.4, color: "#5A85EE" },
-    { name: "Emulator", symbol: "EMU", count: 19, percentage: 6.5, color: "#4272EB" },
+  // Data for receipt distribution - Updated with meaningful content
+  const receiptDistribution = [
+    { name: "Paper", symbol: "PPR", count: 156, percentage: 45, color: "#A2BEF7" },
+    { name: "Email", symbol: "EML", count: 89, percentage: 30, color: "#7298F1" },
+    { name: "A4", symbol: "A4", count: 34, percentage: 15, color: "#5A85EE" },
+    { name: "Mobile", symbol: "MOB", count: 19, percentage: 10, color: "#4272EB" },
   ]
 
   const [selectedPeriod, setSelectedPeriod] = useState("1m")
   const [selectedReceiptType, setSelectedReceiptType] = useState("All")
+  const [selectedDistributionType, setSelectedDistributionType] = useState("All")
   const [isReceiptDropdownOpen, setIsReceiptDropdownOpen] = useState(false)
+  const [isDistributionDropdownOpen, setIsDistributionDropdownOpen] = useState(false)
   const [hoveredCategory, setHoveredCategory] = useState(null)
 
   const periods = ["24h", "7d", "1m", "3m", "1y", "All"]
   const receiptTypes = ["All", "Paper", "A4", "Emulators", "Email"]
+  const distributionTypes = ["All", "Paper", "Email", "A4", "Mobile"]
 
   const totalReceipts = receiptsData.reduce((sum, item) => sum + item.count, 0)
-  const totalTemplates = templateBreakdown.reduce((sum, item) => sum + item.count, 0)
+  const totalDistribution = receiptDistribution.reduce((sum, item) => sum + item.count, 0)
   const totalCategories = receiptCategories.reduce((sum, item) => sum + item.count, 0)
 
   // Professional tooltip for gradient chart
@@ -69,16 +74,16 @@ export default function Home() {
   }
 
   return (
-    <div className="flex-1 bg-[#0a0a0a] min-h-screen">
-      <div className="max-w-[1400px] mx-auto p-6">
+    <div className="bg-[#0a0a0a] min-h-full">
+      <div className="max-w-[1400px] mx-auto p-6 space-y-8">
         {/* Professional Header */}
-        <div className="mb-8">
+        <div>
           <h1 className="text-2xl font-semibold text-white mb-2 tracking-tight">Receipt Analytics</h1>
           <p className="text-gray-400 text-sm">Real-time insights and performance metrics</p>
         </div>
 
         {/* Three Boxes in One Row - Enhanced Professional Design */}
-        <div className="grid grid-cols-12 gap-6 h-[340px]">
+        <div className="grid grid-cols-12 gap-6">
           {/* Box 1 - Premium Analytics Chart */}
           <div className="col-span-12 lg:col-span-6">
             <div className="relative bg-gradient-to-br from-[#0F0F23] via-[#1A1A2E] to-[#16213E] rounded-2xl border border-[#A2BEF7]/10 p-6 h-full flex flex-col overflow-hidden shadow-2xl">
@@ -103,7 +108,7 @@ export default function Home() {
                 </div>
 
                 {/* Enhanced Dropdown */}
-                <div className="relative">
+                <div className="relative z-50">
                   <button
                     onClick={() => setIsReceiptDropdownOpen(!isReceiptDropdownOpen)}
                     className="flex items-center gap-2 bg-[#0F0F23]/80 backdrop-blur-xl border border-[#A2BEF7]/20 rounded-xl px-4 py-2.5 text-white text-sm font-medium hover:border-[#A2BEF7]/40 hover:bg-[#0F0F23]/90 transition-all duration-300 shadow-lg"
@@ -117,7 +122,7 @@ export default function Home() {
 
                   {/* Enhanced Dropdown Menu */}
                   {isReceiptDropdownOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-40 bg-[#0F0F23]/95 backdrop-blur-xl border border-[#A2BEF7]/20 rounded-xl shadow-2xl z-50 py-2 overflow-hidden">
+                    <div className="absolute top-full right-0 mt-2 w-40 bg-[#0F0F23]/95 backdrop-blur-xl border border-[#A2BEF7]/20 rounded-xl shadow-2xl z-[100] py-2 overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-[#A2BEF7]/8 to-transparent"></div>
                       {receiptTypes.map((type) => (
                         <button
@@ -258,18 +263,18 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Box 2 - Professional Receipt Categories (Inspired by Graph Section) */}
+          {/* Box 2 - Professional Receipt Categories */}
           <div className="col-span-12 lg:col-span-3">
             <div className="relative bg-gradient-to-br from-[#0F0F23] via-[#1A1A2E] to-[#16213E] rounded-2xl border border-[#A2BEF7]/10 p-6 h-full flex flex-col overflow-hidden shadow-2xl">
-              {/* Professional Gradient Overlays - Same as Graph Section */}
+              {/* Professional Gradient Overlays */}
               <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-[#A2BEF7]/12 via-[#8AABF4]/8 to-transparent rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#7298F1]/10 via-[#5A85EE]/6 to-transparent rounded-full blur-2xl"></div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-[#A2BEF7]/8 to-[#7298F1]/8 rounded-full blur-2xl"></div>
 
-              {/* Subtle mesh gradient overlay - Same as Graph Section */}
+              {/* Subtle mesh gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#A2BEF7]/3 via-transparent to-[#5A85EE]/3 rounded-2xl"></div>
 
-              {/* Professional Header - Same Style as Graph Section */}
+              {/* Professional Header */}
               <div className="relative z-10 flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 bg-gradient-to-br from-[#A2BEF7] to-[#7298F1] rounded-lg flex items-center justify-center shadow-lg shadow-[#A2BEF7]/20">
                   <BarChart3 className="w-4 h-4 text-white" />
@@ -282,7 +287,7 @@ export default function Home() {
 
               {/* Professional Categories Display */}
               <div className="relative z-10 flex-1 flex flex-col justify-end pb-4">
-                {/* Categories Grid - Clean Horizontal Layout */}
+                {/* Categories Grid */}
                 <div className="flex items-end justify-center gap-4 px-4 py-2 mb-2 bg-transparent rounded-xl">
                   {receiptCategories.map((category, index) => (
                     <div
@@ -300,11 +305,11 @@ export default function Home() {
                         </div>
                       )}
 
-                      {/* Professional Bar - Slimmer and Lower */}
+                      {/* Professional Bar */}
                       <div
                         className="w-11 rounded-lg relative overflow-hidden transition-all duration-300"
                         style={{
-                          height: `${Math.max(category.percentage * 3.5, 60)}px`,
+                          height: `${Math.max(category.percentage * 4, 70)}px`,
                           background: `linear-gradient(135deg, ${category.color} 0%, ${category.color}DD 100%)`,
                           boxShadow: `0 8px 32px ${category.color}40`,
                         }}
@@ -325,7 +330,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Professional Footer - Same Style as Graph Section */}
+              {/* Professional Footer */}
               <div className="relative z-10 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <button className="w-10 h-10 bg-gradient-to-r from-[#A2BEF7] to-[#7298F1] rounded-xl flex items-center justify-center hover:from-[#8AABF4] hover:to-[#5A85EE] transition-all duration-300 shadow-lg hover:shadow-[#A2BEF7]/30">
@@ -336,7 +341,7 @@ export default function Home() {
                   </button>
                 </div>
 
-                {/* Category Selector - Same Style as Graph Section */}
+                {/* Category Selector */}
                 <div className="flex bg-[#0F0F23]/50 backdrop-blur-sm rounded-xl p-1 border border-[#A2BEF7]/10">
                   {receiptCategories.slice(0, 2).map((category, index) => (
                     <button
@@ -351,55 +356,125 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Box 3 - Enhanced Balance Overview */}
+          {/* Box 3 - Professional Receipt Distribution */}
           <div className="col-span-12 lg:col-span-3">
-            <div className="relative bg-[#18151c]/90 backdrop-blur-xl rounded-2xl border border-[#ffffff0d] p-6 h-full flex flex-col shadow-2xl overflow-hidden">
-              {/* Header - Total Balance style */}
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <div className="text-white text-sm font-semibold">Total Balance</div>
-                  <div className="text-gray-400 text-xs mt-0.5">4 cards available</div>
+            <div className="relative bg-gradient-to-br from-[#0F0F23] via-[#1A1A2E] to-[#16213E] rounded-2xl border border-[#A2BEF7]/10 p-6 h-full flex flex-col overflow-hidden shadow-2xl">
+              {/* Professional Gradient Overlays */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-[#A2BEF7]/12 via-[#8AABF4]/8 to-transparent rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#7298F1]/10 via-[#5A85EE]/6 to-transparent rounded-full blur-2xl"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-[#A2BEF7]/8 to-[#7298F1]/8 rounded-full blur-2xl"></div>
+
+              {/* Subtle mesh gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#A2BEF7]/3 via-transparent to-[#5A85EE]/3 rounded-2xl"></div>
+
+              {/* Professional Header */}
+              <div className="relative z-10 flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-[#A2BEF7] to-[#7298F1] rounded-lg flex items-center justify-center shadow-lg shadow-[#A2BEF7]/20">
+                    <PieChart className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-white text-sm font-semibold">Receipt Distribution</div>
+                    <div className="text-gray-400 text-xs">Type breakdown</div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <button className="flex items-center gap-1 bg-[#23202a] px-3 py-1.5 rounded-lg text-xs text-white font-medium border border-[#ffffff14] shadow-sm">
-                    <span className="text-blue-200">USDT</span>
-                    <ChevronDown className="w-3 h-3 text-gray-400" />
+
+                {/* Professional Dropdown */}
+                <div className="relative z-50">
+                  <button
+                    onClick={() => setIsDistributionDropdownOpen(!isDistributionDropdownOpen)}
+                    className="flex items-center gap-2 bg-[#0F0F23]/80 backdrop-blur-xl border border-[#A2BEF7]/20 rounded-xl px-4 py-2.5 text-white text-sm font-medium hover:border-[#A2BEF7]/40 hover:bg-[#0F0F23]/90 transition-all duration-300 shadow-lg"
+                  >
+                    <div className="w-2 h-2 bg-[#A2BEF7] rounded-full shadow-[0_0_6px_#A2BEF7]"></div>
+                    <span>{selectedDistributionType}</span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isDistributionDropdownOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
+
+                  {/* Enhanced Dropdown Menu */}
+                  {isDistributionDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-2 w-40 bg-[#0F0F23]/95 backdrop-blur-xl border border-[#A2BEF7]/20 rounded-xl shadow-2xl z-[100] py-2 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#A2BEF7]/8 to-transparent"></div>
+                      {distributionTypes.map((type) => (
+                        <button
+                          key={type}
+                          onClick={() => {
+                            setSelectedDistributionType(type)
+                            setIsDistributionDropdownOpen(false)
+                          }}
+                          className={`relative w-full text-left px-4 py-2.5 text-sm transition-all duration-200 ${
+                            selectedDistributionType === type
+                              ? "text-white bg-[#A2BEF7]/20 border-r-2 border-[#A2BEF7]"
+                              : "text-gray-300 hover:text-white hover:bg-[#A2BEF7]/10"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div
+                              className={`w-2 h-2 rounded-full ${
+                                type === "All"
+                                  ? "bg-[#A2BEF7] shadow-[0_0_6px_#A2BEF7]"
+                                  : type === "Paper"
+                                    ? "bg-[#A2BEF7] shadow-[0_0_6px_#A2BEF7]"
+                                    : type === "Email"
+                                      ? "bg-[#7298F1] shadow-[0_0_6px_#7298F1]"
+                                      : type === "A4"
+                                        ? "bg-[#5A85EE] shadow-[0_0_6px_#5A85EE]"
+                                        : "bg-[#4272EB] shadow-[0_0_6px_#4272EB]"
+                              }`}
+                            ></div>
+                            {type}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Main Value */}
-              <div className="text-3xl font-bold text-white mt-2 mb-1 tracking-tight">95,227.04 USDT</div>
-              <div className="text-gray-400 text-xs mb-6">~0.9812416 BTC</div>
+              {/* Main Value Display */}
+              <div className="relative z-10 mb-6">
+                <div className="text-3xl font-bold text-white mb-1 tracking-tight">
+                  {totalDistribution.toLocaleString()}
+                </div>
+                <div className="text-gray-400 text-sm">receipts processed</div>
+              </div>
 
-              {/* Template Breakdown - professional alignment */}
-              <div className="flex-1 flex flex-col gap-5 justify-center">
-                {templateBreakdown.map((item, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    {/* Name and symbol */}
-                    <div className="flex flex-col min-w-[90px]">
-                      <span className="text-white text-sm font-medium leading-tight">{item.name}</span>
-                      <span className="text-gray-400 text-xs leading-tight">{item.symbol}</span>
+              {/* Professional Receipt Distribution Bars */}
+              <div className="relative z-10 flex-1 flex flex-col justify-center space-y-3">
+                {receiptDistribution.map((item, index) => (
+                  <div key={index} className="group">
+                    {/* Receipt Type Name */}
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-white text-sm font-medium">{item.name}</span>
                     </div>
-                    {/* Bar with percentage inside */}
-                    <div className="flex-1 flex items-center">
-                      <div className="relative w-full h-7 bg-[#23202a] rounded-lg overflow-hidden flex items-center">
-                        <div
-                          className="absolute left-0 top-0 h-full rounded-lg transition-all duration-700 ease-out"
-                          style={{
-                            width: `${item.percentage}%`,
-                            backgroundColor: item.color,
-                            boxShadow: `0 0 8px ${item.color}40`,
-                          }}
-                        ></div>
-                        <div className="relative w-full flex justify-end pr-3 z-10">
-                          <span
-                            className="text-white text-xs font-semibold drop-shadow"
-                            style={{ position: "relative" }}
-                          >
-                            {item.percentage}%
-                          </span>
-                        </div>
+
+                    {/* Compact Progress Bar */}
+                    <div className="relative w-full h-6 rounded-lg overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#A2BEF7]/20">
+                      {/* Background */}
+                      <div className="absolute inset-0 bg-[#0F0F23]/60 rounded-lg"></div>
+
+                      {/* Progress Fill */}
+                      <div
+                        className="absolute left-0 top-0 h-full rounded-lg transition-all duration-700 ease-out"
+                        style={{
+                          width: `${item.percentage}%`,
+                          background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}CC 100%)`,
+                          boxShadow: `0 0 16px ${item.color}25`,
+                        }}
+                      >
+                        {/* Inner gradient overlay for depth */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-black/20 rounded-lg"></div>
+                      </div>
+
+                      {/* Percentage Text */}
+                      <div className="absolute left-3 top-0 h-full flex items-center z-10">
+                        <span className="text-white text-sm font-bold drop-shadow-lg">{item.percentage}%</span>
+                      </div>
+
+                      {/* Receipt Count */}
+                      <div className="absolute right-3 top-0 h-full flex items-center z-10">
+                        <span className="text-gray-300 text-xs font-medium">{item.count}</span>
                       </div>
                     </div>
                   </div>
@@ -407,6 +482,11 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Professional Brands Directory Section - PROPER SPACING */}
+        <div className="pt-4">
+          <DashboardBrands />
         </div>
       </div>
     </div>
