@@ -23,10 +23,12 @@ export const MobileMenu = ({ isOpen, onClose }) => {
   const [isClassExpanded, setIsClassExpanded] = useState(false)
   const [mounted, setMounted] = useState(false)
 
+  // Handle mounting to prevent hydration issues
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  // Prevent body scroll when menu is open
   useEffect(() => {
     if (!mounted) return
 
@@ -47,6 +49,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
     }
   }, [isOpen, mounted])
 
+  // Handle backdrop click
   const handleBackdropClick = useCallback(
     (e) => {
       e.preventDefault()
@@ -56,6 +59,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
     [onClose],
   )
 
+  // Handle menu close
   const handleClose = useCallback(
     (e) => {
       if (e) {
@@ -67,7 +71,9 @@ export const MobileMenu = ({ isOpen, onClose }) => {
     [onClose],
   )
 
+  // Handle link clicks - close menu after navigation
   const handleLinkClick = useCallback(() => {
+    // Small delay to allow navigation to start
     setTimeout(() => {
       onClose()
     }, 100)
@@ -75,6 +81,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
 
   const navigationItems = [
     { path: "/", icon: <FiInbox size={18} />, label: "Dashboard" },
+    { path: "/warehouse", icon: <FiDivideSquare size={18} />, label: "Warehouse" },
     { path: "/messages", icon: <FiMessageCircle size={18} />, label: "Messages" },
     { path: "/analytics", icon: <FiBarChart size={18} />, label: "Analytics" },
     { path: "/docs", icon: <FiBookOpen size={18} />, label: "Documentation" },
@@ -89,10 +96,12 @@ export const MobileMenu = ({ isOpen, onClose }) => {
     { path: "/logout", icon: <FiLogOut size={18} />, label: "Sign-out" },
   ]
 
+  // Don't render on server or if not mounted
   if (!mounted || !isOpen) return null
 
   return (
     <>
+      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
         onClick={handleBackdropClick}
@@ -102,6 +111,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
         }}
       />
 
+      {/* Floating Menu Card */}
       <div
         className="fixed top-4 right-4 left-4 max-w-sm mx-auto bg-[#1A191E] border border-[#2A2930] rounded-2xl shadow-2xl z-50 md:hidden overflow-hidden"
         style={{
@@ -111,6 +121,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-[#2A2930]">
           <div className="flex items-center gap-3">
             <Image alt="Logo" src={"/Logo.webp"} width={24} height={24} />
@@ -127,7 +138,9 @@ export const MobileMenu = ({ isOpen, onClose }) => {
           </button>
         </div>
 
+        {/* Menu Content */}
         <div className="max-h-[70vh] overflow-y-auto">
+          {/* Main Navigation */}
           <div className="p-4">
             <nav className="space-y-1">
               {navigationItems.map((item, index) => {
@@ -152,6 +165,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
                 )
               })}
 
+              {/* Class Dropdown */}
               <div>
                 <button
                   onClick={(e) => {
@@ -170,6 +184,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
                   />
                 </button>
 
+                {/* Class Submenu */}
                 <div
                   className="overflow-hidden transition-all duration-300"
                   style={{
@@ -198,6 +213,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
+              {/* Lifestyle */}
               <Link
                 href="/lifestyle"
                 onClick={handleLinkClick}
@@ -211,6 +227,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
             </nav>
           </div>
 
+          {/* Account Section */}
           <div className="border-t border-[#2A2930] p-4">
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Account</h3>
             <nav className="space-y-1">
@@ -235,6 +252,7 @@ export const MobileMenu = ({ isOpen, onClose }) => {
             </nav>
           </div>
 
+          {/* User Profile Footer */}
           <div className="border-t border-[#2A2930] p-4">
             <div className="flex items-center gap-3 p-3 bg-[#2A2930] rounded-xl">
               <Image src="/person.jpg" alt="Profile" width={32} height={32} className="rounded-full" />
